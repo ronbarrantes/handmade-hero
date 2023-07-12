@@ -7,7 +7,18 @@
 
 static float GlobalRenderingWidth = 1024;
 static float GlobalRenderingHeight = 768;
+static bool Running = true;
 
+@interface HandmadeWindowDelegate: NSObject<NSWindowDelegate>
+@end
+
+@implementation HandmadeWindowDelegate
+
+- (void)windowWillClose:(NSNotification *)notification {
+  Running = false;
+}
+
+@end
 
 int main (int argc, const char * argv[]){
 
@@ -36,8 +47,11 @@ int main (int argc, const char * argv[]){
   [window setTitle: @"Handmade Hero"];
   [window makeKeyAndOrderFront: nil];
 
+  HandmadeWindowDelegate *windowDelegate = [[HandmadeWindowDelegate alloc] init];
+  [window setDelegate: windowDelegate];
+
   // ALLOCATE a window and show it
-  while(true){
+  while(Running){
     NSEvent* event;
     do {
       event = [NSApp nextEventMatchingMask: NSEventMaskAny
@@ -53,5 +67,5 @@ int main (int argc, const char * argv[]){
     while(event != nil);
   }
 
-  printf("Handmade finished running");
+  printf("Handmade finished running\n");
 }
