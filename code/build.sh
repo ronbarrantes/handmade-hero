@@ -4,5 +4,5 @@
 echo "Building the handmade project"
 mkdir ../build
 pushd ../build
-clang -g -o handmade ../code/osx_main.mm
+clang -g -framework AppKit -o handmade ../code/osx_main.mm
 popd 

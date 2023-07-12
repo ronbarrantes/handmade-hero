@@ -1,9 +1,30 @@
 // osx_main.mm
-
+//
 // The entry point to handmade hero
+
 #import <stdio.h>
+#include <AppKit/AppKit.h>
 
 int main (int argc, const char * argv[]){
-    printf("Handmade hero ran succesfully");
-    return 0;
+    
+    // ALLOCATE a window and show it
+    while(true){
+      NSEvent* event;
+      do {
+        event = [
+          NSApp nextEventMatchingMask: NSEventMaskAny
+          untilDate: nil
+          inMode: NSDefaultRunLoopMode
+          dequeue: YES
+        ];
+        switch([event type]){
+          default:
+            [NSApp sendEvent: event]
+        }
+      }
+
+    }
+
+    printf("Handmade Hero app")
+
 }
