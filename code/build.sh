@@ -6,3 +6,4 @@ mkdir ../build
 pushd ../build
 clang -g -framework AppKit -o handmade ../code/osx_main.mm
 popd 
+echo SUCCESS!!
