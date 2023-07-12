@@ -19,12 +19,13 @@ int main (int argc, const char * argv[]){
         ];
         switch([event type]){
           default:
-            [NSApp sendEvent: event]
+            [NSApp sendEvent: event];
         }
       }
 
+      while(event != nil);
     }
 
-    printf("Handmade Hero app")
+    printf("Handmade Hero app");
 
 }
