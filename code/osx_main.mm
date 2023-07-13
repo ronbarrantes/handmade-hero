@@ -21,9 +21,7 @@ static bool Running = true;
 @end
 
 int main (int argc, const char * argv[]){
-
   NSRect screenRect = [[NSScreen mainScreen] frame];
-
   NSRect windowRect = NSMakeRect(
       (screenRect.size.width - GlobalRenderingWidth) / 2,
       (screenRect.size.height - GlobalRenderingHeight) / 2,
@@ -31,17 +29,14 @@ int main (int argc, const char * argv[]){
       GlobalRenderingHeight
     );
 
-  NSWindow *window = [
-    [NSWindow alloc]
+  NSWindow *window = [[NSWindow alloc]
       initWithContentRect: windowRect
       styleMask:  NSWindowStyleMaskTitled |
                   NSWindowStyleMaskClosable |
                   NSWindowStyleMaskMiniaturizable |
                   NSWindowStyleMaskResizable
-                  // NSWindowStyleMaskBorderless
       backing: NSBackingStoreBuffered
-      defer: NO
-    ];
+      defer: NO];
 
   [window setBackgroundColor: NSColor.redColor];
   [window setTitle: @"Handmade Hero"];
