@@ -21,6 +21,7 @@ static bool Running = true;
 @end
 
 int main (int argc, const char * argv[]){
+  HandmadeWindowDelegate *mainWindowDelegate = [[HandmadeWindowDelegate alloc] init];
   NSRect screenRect = [[NSScreen mainScreen] frame];
   NSRect windowRect = NSMakeRect(
       (screenRect.size.width - GlobalRenderingWidth) / 2,
@@ -38,12 +39,43 @@ int main (int argc, const char * argv[]){
       backing: NSBackingStoreBuffered
       defer: NO];
 
-  [window setBackgroundColor: NSColor.redColor];
+  [window setBackgroundColor: NSColor.magentaColor];
   [window setTitle: @"Handmade Hero"];
   [window makeKeyAndOrderFront: nil];
+  [window setDelegate: mainWindowDelegate];
 
-  HandmadeWindowDelegate *windowDelegate = [[HandmadeWindowDelegate alloc] init];
-  [window setDelegate: windowDelegate];
+  int bitmapWidth = window.contentView.bounds.size.width;
+  int bitmapHeight = window.contentView.bounds.size.height;
+  int bytesPerPixel = 4;
+  // Size of row
+  int pitch = bitmapWidth * bytesPerPixel;
+  uint8_t *buffer = (uint8_t*)malloc(pitch * bitmapHeight);
+
+  // Pixel element
+  uint8_t red = 255;
+  uint8_t green = 0;
+  uint8_t blue = 0;
+  uint8_t alpha = 255; // may need be 100
+
+
+  NSBitmapImageRep *rep = [[NSBitmapImageRep alloc]
+                              initWithBitmapDataPlanes: &buffer
+                              pixelsWide: bitmapWidth
+                              pixelsHigh: bitmapHeight
+                              bitsPerSample: sizeof(&red) // should be 8
+                              samplesPerPixel: bytesPerPixel
+                              hasAlpha: YES
+                              isPlanar: NO
+                              colorSpaceName: NSDeviceRGBColorSpace
+                              bytesPerRow: pitch
+                              bitsPerPixel: 32
+                            ];
+   
+
+  NSSize imageSize = NSMakeSize(bitmapWidth, bitmapHeight);
+  NSImage *image = [[NSImage alloc] initWithSize: imageSize];
+  [image addRepresentation: rep];
+  window.contentView.layer.contents = image;
 
   // ALLOCATE a window and show it
   while(Running){
